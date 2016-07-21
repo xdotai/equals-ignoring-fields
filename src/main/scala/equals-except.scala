@@ -1,8 +1,8 @@
 import shapeless._
-object equalsExcept {
+import labelled._
+import ops.record._
 
-  import labelled._
-  import ops.record._
+object equalsExcept {
 
   trait EqualsExcept[T] {
     def equalsExcept(t1: T, t2: T, fields: Symbol*): Boolean
