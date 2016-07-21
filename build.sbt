@@ -10,6 +10,7 @@ scalacOptions := Seq(
   "-feature",
   "-language:higherKinds",
   "-language:implicitConversions",
-  "-unchecked",
-  "-Xlog-implicits")
+  "-unchecked"
+//  "-Xlog-implicits"
+)
 

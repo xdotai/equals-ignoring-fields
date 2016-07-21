@@ -3,71 +3,67 @@ object equalsExcept {
 
   import labelled._
   import ops.record._
-  import ops.hlist.Prepend
 
   trait EqualsExcept[T] {
-    def equalsExcept(t1: T, t2: T, field: Witness.Aux[Symbol]): Boolean
+    def equalsExcept(t1: T, t2: T, fields: Symbol*): Boolean
   }
 
-  object EqualsExcept {
-    implicit def generic[T, G](implicit gen: LabelledGeneric.Aux[T, G], sg: Lazy[EqualsExcept[G]]): EqualsExcept[T] =
+  trait LowPriorityEqualsExcept {
+    implicit def catchAll[A] = new EqualsExcept[A] {
+      def equalsExcept(x: A, y: A, fields: Symbol*): Boolean = {
+        x == y
+      }
+    }
+
+  }
+
+  object EqualsExcept extends LowPriorityEqualsExcept {
+
+    implicit def generic[T, R](implicit
+      gen: LabelledGeneric.Aux[T, R],
+      eqRepr: Lazy[EqualsExcept[R]]): EqualsExcept[T] =
       new EqualsExcept[T] {
-        type Out = R
-        def equalsExcept(f: F, field: Witness.Aux[Symbol]) = sg.value.equalsExcept(gen.to(f), field)
+        def equalsExcept(x: T, y: T, fields: Symbol*): Boolean =
+          eqRepr.value.equalsExcept(gen.to(x), gen.to(y), fields: _*)
       }
 
-    implicit def product: EqualsExcept[HNil, HNil] =
-      new EqualsExcept[HNil] {
-        type Out = HNil
-        def equalsExcept(p: HNil, field: Witness.Aux[Symbol]) = HNil
-      }
+    implicit val hnil: EqualsExcept[HNil] = new EqualsExcept[HNil] {
+      def equalsExcept(x: HNil, y: HNil, fields: Symbol*): Boolean = true
+    }
 
-    implicit def product[K <: Symbol, V, T <: HList, RV <: HList, RT <: HList, R <: HList](implicit
+    implicit def product[K <: Symbol, H, T <: HList](implicit
       key: Witness.Aux[K],
-      selector: Selector.Aux[FieldType[K, V] :: T, K, Symbol],
-      sv: Lazy[EqualsExcept[V, RV]],
-      st: Lazy[EqualsExcept[T, RT]],
-      prepend: Prepend.Aux[RV, RT, R]): EqualsExcept[FieldType[K, V] :: T, R] =
-      new EqualsExcept[FieldType[K, V] :: T] {
-        type Out = R
-        def equalsExcept(p: FieldType[K, V] :: T, field: Witness.Aux[Symbol]) = {
-          val currentField: Symbol = selector(p)
-          val fieldToRemove: Symbol = field.value
-          if (currentField == fieldToRemove) sv.value.equalsExcept(p.head, field)
-          else p.head :: st.value.equalsExcept(p.tail, field)
+      eqH: Lazy[EqualsExcept[H]],
+      eqT: Lazy[EqualsExcept[T]]): EqualsExcept[FieldType[K, H] :: T] =
+      new EqualsExcept[FieldType[K, H] :: T] {
+        def equalsExcept(x: FieldType[K, H] :: T, y: FieldType[K, H] :: T, fields: Symbol*): Boolean = {
+          val current: Symbol = key.value
+          if (fields.contains(current)) true
+          else eqH.value.equalsExcept(x.head, y.head, fields: _*) && eqT.value.equalsExcept(x.tail, y.tail, fields: _*)
         }
       }
 
-    implicit def cnil: EqualsExcept[CNil, HNil] =
-      new EqualsExcept[CNil] {
-        type Out = HNil
-        def equalsExcept(p: CNil, field: Witness.Aux[Symbol]) = HNil
-      }
+    implicit val cnil: EqualsExcept[CNil] = new EqualsExcept[CNil] {
+      def equalsExcept(x: CNil, y: CNil, fields: Symbol*): Boolean = true
+    }
 
-    implicit def coproduct[K <: Symbol, V, T <: Coproduct, RV <: HList, RT <: HList, R <: HList](implicit
+    implicit def coproduct[H, T <: Coproduct, K <: Symbol](implicit
       key: Witness.Aux[K],
-      sv: Lazy[EqualsExcept[V, RV]],
-      st: Lazy[EqualsExcept[T, RT]],
-      prepend: Prepend.Aux[RV, RT, R]): EqualsExcept[FieldType[K, V] :+: T, R] =
-      new EqualsExcept[FieldType[K, V] :+: T] {
-        type Out = R
-        def equalsExcept(c: FieldType[K, V] :+: T, field: Witness.Aux[Symbol]): HList =
-          c match {
-            case Inl(head) => sv.value.equalsExcept(head, field)
-            case Inr(tail) => st.value.equalsExcept(tail, field)
+      eqH: Lazy[EqualsExcept[H]],
+      eqT: Lazy[EqualsExcept[T]]): EqualsExcept[FieldType[K, H] :+: T] =
+      new EqualsExcept[FieldType[K, H] :+: T] {
+        def equalsExcept(x: FieldType[K, H] :+: T, y: FieldType[K, H] :+: T, fields: Symbol*): Boolean = {
+          (x, y) match {
+            case (Inl(xh), Inl(yh)) => eqH.value.equalsExcept(xh, yh, fields: _*)
+            case (Inr(xt), Inr(yt)) => eqT.value.equalsExcept(xt, yt, fields: _*)
+            case _ => false
           }
+        }
       }
   }
 
-  implicit class EqualsExceptOps[T](x: T)(implicit equalsExceptT: EqualsExcept[T]) {
-    def equalsExcept(field: Witness.Aux[Symbol]): HList = equalsExceptT.equalsExcept(x, field)
+  implicit class EqualsExceptOps[T](x: T)(implicit eqT: EqualsExcept[T]) {
+    def equalsExcept(y: T, fields: Symbol*): Boolean = eqT.equalsExcept(x, y, fields: _*)
   }
 
-  sealed trait Animal
-  case class Cat(name: String, fish: Int) extends Animal
-  case class Dog(name: String, bones: Int) extends Animal
-
-  val felix: Cat = Cat("Felix", 1)
-  val tigger = Dog("Tigger", 2)
 }
-
