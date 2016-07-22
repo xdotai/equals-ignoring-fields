@@ -79,4 +79,20 @@ class TestEquals extends FunSuite with Matchers {
 
     assert(!buterfliesStation.equalsExcept('_id)(dictatorUltra))
   }
+
+  test("same class bad field") {
+    val buterfliesStation1 = Buterflies(
+      _id = 1,
+      date = 1131,
+      count = 2
+    )
+    val buterfliesStation2 = Buterflies(
+      _id = 2,
+      date = 1131,
+      count = 2
+    )
+
+    assert(!buterfliesStation1.equalsExcept('_id2)(buterfliesStation2))
+    assert(buterfliesStation1 != buterfliesStation2)
+  }
 }
