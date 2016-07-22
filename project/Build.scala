@@ -42,7 +42,7 @@ object MyBuild extends Build{
       publishArtifact in Test := false,
       pomIncludeRepository := { _ => false },
       makePomConfiguration ~= { _.copy(configurations = Some(Seq(Compile, Runtime, Optional))) },
-      licenses += ("Apache 2.0", url("http://www.apache.org/licenses/LICENSE-2.0")),
+      licenses += ("Apache 2.0", url("http://github.com/xdotai/"+projectName+"/blob/master/LICENSE.txt")),
       homepage := Some(url("http://github.com/xdotai/"+projectName)),
       startYear := Some(2016),
       pomExtra :=
