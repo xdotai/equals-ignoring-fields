@@ -15,7 +15,7 @@ import ai.x.equalsIgnoringFields.syntax._
 
 sealed trait Monarch
 
-case class Buterflies(
+case class Butterflies(
   _id: Long,
   date: Long,
   count: Int
@@ -27,19 +27,19 @@ case class Dictator(
   count: Int
 ) extends Monarch
 
-val buterfliesStation1 = Buterflies(
+val butterfliesStation1 = Butterflies(
       _id = 1,
       date = 1131,
       count = 3
     )
-val buterfliesStation2 = Buterflies(
+val butterfliesStation2 = Butterflies(
       _id = 2,
       date = 1131,
       count = 2
     )
 
-assert(buterfliesStation1.equalsIgnoringFields('_id, 'count)(buterfliesStation2)) // the two objects are the same if we ignore those two fields
-assert(!buterfliesStation1.equalsIgnoringFields('_id)(buterfliesStation2)) // the two objects are different if not ignoring `count`
-assert(buterfliesStation1 != buterfliesStation2) // the two objects are different, period
+assert(butterfliesStation1.equalsIgnoringFields('_id, 'count)(butterfliesStation2)) // the two objects are the same if we ignore those two fields
+assert(!butterfliesStation1.equalsIgnoringFields('_id)(butterfliesStation2)) // the two objects are different if not ignoring `count`
+assert(butterfliesStation1 != butterfliesStation2) // the two objects are different, period
 
 ```

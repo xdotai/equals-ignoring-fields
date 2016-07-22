@@ -23,7 +23,7 @@ import equalsIgnoringFields._
 import equalsIgnoringFields.syntax._
 
 sealed trait Monarch
-case class Buterflies(
+case class Butterflies(
   _id: Long,
   date: Long,
   count: Int
@@ -36,55 +36,55 @@ case class Dictator(
 
 class TestEquals extends FunSuite with Matchers {
   test("same class equals") {
-    val buterfliesStation1 = Buterflies(
+    val butterfliesStation1 = Butterflies(
       _id = 1,
       date = 1131,
       count = 2
     )
-    val buterfliesStation2 = Buterflies(
+    val butterfliesStation2 = Butterflies(
       _id = 2,
       date = 1131,
       count = 2
     )
 
-    assert(buterfliesStation1.equalsIgnoringFields('_id)(buterfliesStation2))
-    assert(buterfliesStation1 != buterfliesStation2)
+    assert(butterfliesStation1.equalsIgnoringFields('_id)(butterfliesStation2))
+    assert(butterfliesStation1 != butterfliesStation2)
   }
   test("same class equals but same type") {
-    val buterfliesStation1: Monarch = Buterflies(
+    val butterfliesStation1: Monarch = Butterflies(
       _id = 1,
       date = 1131,
       count = 2
     )
-    val buterfliesStation2 = Buterflies(
+    val butterfliesStation2 = Butterflies(
       _id = 2,
       date = 1131,
       count = 2
     )
 
-    assert(buterfliesStation1.equalsIgnoringFields('_id)(buterfliesStation2))
-    assert(buterfliesStation1 != buterfliesStation2)
+    assert(butterfliesStation1.equalsIgnoringFields('_id)(butterfliesStation2))
+    assert(butterfliesStation1 != butterfliesStation2)
   }
 
   test("discard several fields") {
-    val buterfliesStation1 = Buterflies(
+    val butterfliesStation1 = Butterflies(
       _id = 1,
       date = 1131,
       count = 3
     )
-    val buterfliesStation2 = Buterflies(
+    val butterfliesStation2 = Butterflies(
       _id = 2,
       date = 1131,
       count = 2
     )
 
-    assert(buterfliesStation1.equalsIgnoringFields('_id, 'count)(buterfliesStation2))
-    assert(!buterfliesStation1.equalsIgnoringFields('_id)(buterfliesStation2))
-    assert(buterfliesStation1 != buterfliesStation2)
+    assert(butterfliesStation1.equalsIgnoringFields('_id, 'count)(butterfliesStation2))
+    assert(!butterfliesStation1.equalsIgnoringFields('_id)(butterfliesStation2))
+    assert(butterfliesStation1 != butterfliesStation2)
   }
 
   test("two classes are different") {
-    val buterfliesStation: Monarch = Buterflies(
+    val butterfliesStation: Monarch = Butterflies(
       _id = 1,
       date = 1131,
       count = 2
@@ -95,22 +95,22 @@ class TestEquals extends FunSuite with Matchers {
       count = 2
     )
 
-    assert(!buterfliesStation.equalsIgnoringFields('_id)(dictatorUltra))
+    assert(!butterfliesStation.equalsIgnoringFields('_id)(dictatorUltra))
   }
 
   test("same class bad field") {
-    val buterfliesStation1 = Buterflies(
+    val butterfliesStation1 = Butterflies(
       _id = 1,
       date = 1131,
       count = 2
     )
-    val buterfliesStation2 = Buterflies(
+    val butterfliesStation2 = Butterflies(
       _id = 2,
       date = 1131,
       count = 2
     )
 
-    assert(!buterfliesStation1.equalsIgnoringFields('_id2)(buterfliesStation2))
-    assert(buterfliesStation1 != buterfliesStation2)
+    assert(!butterfliesStation1.equalsIgnoringFields('_id2)(butterfliesStation2))
+    assert(butterfliesStation1 != butterfliesStation2)
   }
 }
