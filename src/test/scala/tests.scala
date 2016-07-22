@@ -1,3 +1,5 @@
+package ai.x
+
 package tests
 
 import org.scalatest._

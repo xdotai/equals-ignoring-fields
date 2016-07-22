@@ -1,3 +1,4 @@
+package ai.x
 package equalsIgnoringFields
 import shapeless._
 import labelled._

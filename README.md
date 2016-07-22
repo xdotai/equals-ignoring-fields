@@ -4,8 +4,8 @@ It compares two cases classes excluding specific *field names* rather than types
 
 ## Example:
 ```
-import equalsIgnoringFields._
-import equalsIgnoringFields.syntax._
+import ai.x.equalsIgnoringFields._
+import ai.x.equalsIgnoringFields.syntax._
 
 sealed trait Monarch
 
@@ -22,18 +22,16 @@ case class Dictator(
 ) extends Monarch
 
 val buterfliesStation1 = Buterflies(
-    _id = 1,
-    date = 1131,
-    count = 2
-  )
-
+      _id = 1,
+      date = 1131,
+      count = 3
+    )
 val buterfliesStation2 = Buterflies(
-    _id = 2,
-    date = 1132,
-    count = 2
-  )
+      _id = 2,
+      date = 1131,
+      count = 2
+    )
 
 assert(buterfliesStation1.equalsIgnoringFields('_id, 'count)(buterfliesStation2))
-assert(buterfliesStation1 != buterfliesStation2)
 
 ```
