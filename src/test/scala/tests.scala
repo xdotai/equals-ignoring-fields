@@ -1,8 +1,8 @@
 package tests
 
 import org.scalatest._
-import equalsExcept._
-import equalsExcept.syntax._
+import equalsIgnoringFields._
+import equalsIgnoringFields.syntax._
 
 sealed trait Monarch
 case class Buterflies(
@@ -29,7 +29,7 @@ class TestEquals extends FunSuite with Matchers {
       count = 2
     )
 
-    assert(buterfliesStation1.equalsExcept('_id)(buterfliesStation2))
+    assert(buterfliesStation1.equalsIgnoringFields('_id)(buterfliesStation2))
     assert(buterfliesStation1 != buterfliesStation2)
   }
   test("same class equals but same type") {
@@ -44,7 +44,7 @@ class TestEquals extends FunSuite with Matchers {
       count = 2
     )
 
-    assert(buterfliesStation1.equalsExcept('_id)(buterfliesStation2))
+    assert(buterfliesStation1.equalsIgnoringFields('_id)(buterfliesStation2))
     assert(buterfliesStation1 != buterfliesStation2)
   }
 
@@ -60,8 +60,8 @@ class TestEquals extends FunSuite with Matchers {
       count = 2
     )
 
-    assert(buterfliesStation1.equalsExcept('_id, 'count)(buterfliesStation2))
-    assert(!buterfliesStation1.equalsExcept('_id)(buterfliesStation2))
+    assert(buterfliesStation1.equalsIgnoringFields('_id, 'count)(buterfliesStation2))
+    assert(!buterfliesStation1.equalsIgnoringFields('_id)(buterfliesStation2))
     assert(buterfliesStation1 != buterfliesStation2)
   }
 
@@ -77,7 +77,7 @@ class TestEquals extends FunSuite with Matchers {
       count = 2
     )
 
-    assert(!buterfliesStation.equalsExcept('_id)(dictatorUltra))
+    assert(!buterfliesStation.equalsIgnoringFields('_id)(dictatorUltra))
   }
 
   test("same class bad field") {
@@ -92,7 +92,7 @@ class TestEquals extends FunSuite with Matchers {
       count = 2
     )
 
-    assert(!buterfliesStation1.equalsExcept('_id2)(buterfliesStation2))
+    assert(!buterfliesStation1.equalsIgnoringFields('_id2)(buterfliesStation2))
     assert(buterfliesStation1 != buterfliesStation2)
   }
 }

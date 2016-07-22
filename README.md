@@ -1,11 +1,11 @@
-# equals-except
+# x.equals
 
 It compares two cases classes excluding specific *field names* rather than types.
 
 ## Example:
 ```
-import equalsExcept._
-import equalsExcept.syntax._
+import equalsIgnoringFields._
+import equalsIgnoringFields.syntax._
 
 sealed trait Monarch
 
@@ -33,7 +33,7 @@ val buterfliesStation2 = Buterflies(
     count = 2
   )
 
-assert(buterfliesStation1.equalsExcept('_id, 'count)(buterfliesStation2))
+assert(buterfliesStation1.equalsIgnoringFields('_id, 'count)(buterfliesStation2))
 assert(buterfliesStation1 != buterfliesStation2)
 
 ```
