@@ -1,6 +1,6 @@
 # equals-except
 
-It compares two cases classes excluding specific *fields* rather than types.
+It compares two cases classes excluding specific *field names* rather than types.
 
 ## Example:
 ```
