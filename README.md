@@ -3,7 +3,7 @@
 It compares two cases classes excluding specific *field names* rather than types.
 
 ## Example:
-```
+```scala
 import ai.x.equalsIgnoringFields._
 import ai.x.equalsIgnoringFields.syntax._
 
