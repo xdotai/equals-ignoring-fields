@@ -32,6 +32,8 @@ val buterfliesStation2 = Buterflies(
       count = 2
     )
 
-assert(buterfliesStation1.equalsIgnoringFields('_id, 'count)(buterfliesStation2))
+assert(buterfliesStation1.equalsIgnoringFields('_id, 'count)(buterfliesStation2)) // the two objects are the same if we ignore those two fields
+assert(!buterfliesStation1.equalsIgnoringFields('_id)(buterfliesStation2)) // the two objects are different if not ignoring `count`
+assert(buterfliesStation1 != buterfliesStation2) // the two objects are different, period
 
 ```
