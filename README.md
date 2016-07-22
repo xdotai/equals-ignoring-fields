@@ -2,6 +2,20 @@
 
 It compares two cases classes excluding specific *field names* rather than types.
 
+## Getting started
+
+For now the artifact is deployed in our artifactory, when this repo becomes public will go to sonatype
+
+#### Server
+
+```
+"xdotai release"  at "http://artifactory.xdotai-internal.net:8081/artifactory/libs-release-local",
+```
+
+```
+libraryDependencies += "ai.x" %% "equals-ignoring-fields" % "1.0.0"
+```
+
 ## Example:
 ```scala
 import ai.x.equalsIgnoringFields._
