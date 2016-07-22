@@ -4,17 +4,33 @@ It compares two cases classes excluding specific *fields* rather than types.
 
 ## Example:
 ```
-sealed trait Animal
-case class Cat(name: String, fish: Int) extends Animal
-case class Dog(name: String, bones: Int) extends Animal
+import equalsExcept._
+import equalsExcept.syntax._
 
-val felix: Animal = Cat("Felix", 1)
-val juan= Cat("juan", 1)
+sealed trait Monarch
+case class Buterflies(
+  _id: Long,
+  date: Long,
+  count: Int
+) extends Monarch
+case class Dictator(
+  _id: Long,
+  date: Long,
+  count: Int
+) extends Monarch
 
-scala> felix.equalsExcept(juan, 'fish)
-res0: Boolean = false
+val buterfliesStation1 = Buterflies(
+    _id = 1,
+    date = 1131,
+    count = 2
+  )
+  val buterfliesStation2 = Buterflies(
+    _id = 2,
+    date = 1131,
+    count = 2
+  )
 
-scala> felix.equalsExcept(juan, 'name)
-res1: Boolean = true
+assert(buterfliesStation1.equalsExcept('_id)(buterfliesStation2))
+assert(buterfliesStation1 != buterfliesStation2)
 
 ```
