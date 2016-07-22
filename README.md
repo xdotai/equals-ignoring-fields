@@ -1,4 +1,4 @@
-# x.equals
+# equals-ignoring-fields
 
 It compares two cases classes excluding specific *field names* rather than types.
 
