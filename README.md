@@ -29,11 +29,11 @@ val buterfliesStation1 = Buterflies(
 
 val buterfliesStation2 = Buterflies(
     _id = 2,
-    date = 1131,
+    date = 1132,
     count = 2
   )
 
-assert(buterfliesStation1.equalsExcept('_id)(buterfliesStation2))
+assert(buterfliesStation1.equalsExcept('_id, 'count)(buterfliesStation2))
 assert(buterfliesStation1 != buterfliesStation2)
 
 ```
