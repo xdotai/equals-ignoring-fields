@@ -5,6 +5,11 @@ It compares two cases classes excluding specific *field names* rather than types
 ## Getting started
 
 ```scala
+resolvers ++= Seq(
+  Resolver.sonatypeRepo("releases"),
+  Resolver.sonatypeRepo("snapshots")
+)
+
 libraryDependencies += "ai.x" %% "equals-ignoring-fields" % "1.0.0"
 ```
 
