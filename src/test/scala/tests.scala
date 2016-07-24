@@ -47,7 +47,7 @@ class TestEquals extends FunSuite with Matchers {
       count = 2
     )
 
-    assert(butterfliesStation1.equalsIgnoringFields('_id)(butterfliesStation2))
+    assert(butterfliesStation1.equalsIgnoringFields(_ == '_id)(butterfliesStation2))
     assert(butterfliesStation1 != butterfliesStation2)
   }
   test("same class equals but same type") {
@@ -62,7 +62,7 @@ class TestEquals extends FunSuite with Matchers {
       count = 2
     )
 
-    assert(butterfliesStation1.equalsIgnoringFields('_id)(butterfliesStation2))
+    assert(butterfliesStation1.equalsIgnoringFields(_ == '_id)(butterfliesStation2))
     assert(butterfliesStation1 != butterfliesStation2)
   }
 
@@ -78,8 +78,8 @@ class TestEquals extends FunSuite with Matchers {
       count = 2
     )
 
-    assert(butterfliesStation1.equalsIgnoringFields('_id, 'count)(butterfliesStation2))
-    assert(!butterfliesStation1.equalsIgnoringFields('_id)(butterfliesStation2))
+    assert(butterfliesStation1.equalsIgnoringFields(field => field == '_id || field == 'count)(butterfliesStation2))
+    assert(!butterfliesStation1.equalsIgnoringFields(_ == '_id)(butterfliesStation2))
     assert(butterfliesStation1 != butterfliesStation2)
   }
 
@@ -95,7 +95,7 @@ class TestEquals extends FunSuite with Matchers {
       count = 2
     )
 
-    assert(!butterfliesStation.equalsIgnoringFields('_id)(dictatorUltra))
+    assert(!butterfliesStation.equalsIgnoringFields(_ == '_id)(dictatorUltra))
   }
 
   test("same class bad field") {
@@ -110,7 +110,7 @@ class TestEquals extends FunSuite with Matchers {
       count = 2
     )
 
-    assert(!butterfliesStation1.equalsIgnoringFields('_id2)(butterfliesStation2))
+    assert(!butterfliesStation1.equalsIgnoringFields(_ == '_id2)(butterfliesStation2))
     assert(butterfliesStation1 != butterfliesStation2)
   }
 }
