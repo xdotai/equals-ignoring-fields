@@ -34,6 +34,8 @@ trait LowPriorityEqualsIgnoringFields {
 
 object EqualsIgnoringFields extends LowPriorityEqualsIgnoringFields {
 
+  def apply[A: EqualsIgnoringFields]: EqualsIgnoringFields[A] = implicitly[EqualsIgnoringFields[A]]
+
   implicit def generic[T, R](implicit
     gen: LabelledGeneric.Aux[T, R],
     eqRepr: Lazy[EqualsIgnoringFields[R]]): EqualsIgnoringFields[T] =

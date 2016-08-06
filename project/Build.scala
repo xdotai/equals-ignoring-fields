@@ -6,7 +6,7 @@ object MyBuild extends Build{
   val projectName = "equals-ignoring-fields"
   lazy val aRootProject = Project(id = projectName, base = file("."),
     settings = Seq(
-      version := "1.0.0",
+      version := "1.0.1",
       name := projectName,
       scalaVersion := "2.11.8",
       description := "Allows to compare to case classes while ignoring certain fields by name",
