@@ -79,8 +79,8 @@ object EqualsIgnoringFields extends LowPriorityEqualsIgnoringFields {
 }
 
 object syntax {
-  implicit class EqualsIgnoringFieldsOps[T](x: T)(implicit eqT: EqualsIgnoringFields[T]) {
-    def equalsIgnoringFields(field: Symbol => Boolean)(y: T): Boolean = eqT.equalsIgnoringFields(x, y, field)
+  implicit class EqualsIgnoringFieldsOps[T](x: T) {
+    def equalsIgnoringFields(field: Symbol => Boolean)(y: T)(implicit eqT: EqualsIgnoringFields[T]): Boolean = eqT.equalsIgnoringFields(x, y, field)
   }
 
 }
