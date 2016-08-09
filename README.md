@@ -10,7 +10,7 @@ resolvers ++= Seq(
   Resolver.sonatypeRepo("snapshots")
 )
 
-libraryDependencies += "ai.x" %% "equals-ignoring-fields" % "1.0.0"
+libraryDependencies += "ai.x" %% "equals-ignoring-fields" % "1.0.2"
 ```
 
 ## Example:
