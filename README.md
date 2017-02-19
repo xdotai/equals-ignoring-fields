@@ -1,6 +1,6 @@
 # equals-ignoring-fields
 
-*MOVED* to https://github.com/xdotai/typeless
+**MOVED** to https://github.com/xdotai/typeless
 
 It compares two cases classes excluding specific *field names* rather than types.
 
